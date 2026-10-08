@@ -20,7 +20,7 @@
   <link rel="icon" href="/assets/img/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/styles.css?v=2">
+  <link rel="stylesheet" href="/assets/css/styles.css?v=3">
   <script src="/assets/js/config.js?v=2" defer></script>
   <script src="/assets/js/tracking.js?v=2" defer></script>
   <script src="/assets/js/main.js?v=2" defer></script>
@@ -57,8 +57,8 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Catch-up bookkeeping for small businesses</p>
-          <h1 id="hero-title">Behind on your books? We'll catch you up.</h1>
+          <p class="hero-badge"><span class="badge-dot" aria-hidden="true"></span>Catch-up bookkeeping for small businesses</p>
+          <h1 id="hero-title">Behind on your books? We'll <span class="accent">catch you&nbsp;up.</span></h1>
           <p class="lead">Months or years behind, we categorize and reconcile the backlog in QuickBooks Online for a flat one-time fee. Then we keep you current every month.</p>
           <ul class="hero-points">
             <li><span class="check" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>A flat one-time fee, quoted before any work starts</li>
@@ -73,13 +73,15 @@
           <p class="cta-note">No judgment and no obligation. Being behind is common.</p>
         </div>
 
+        <div class="hero-visual">
+          <div class="float-badge float-badge-tl" aria-hidden="true"><span class="badge-dot"></span><span><small>Quoted up front</small>One flat fee</span></div>
         <div class="close-card" role="group" aria-label="What catch-up covers">
           <div class="close-card-head">
             <div>
               <div class="close-card-label">Catch-up</div>
               <div class="close-card-title">From backlog to current</div>
             </div>
-            <span class="pill">Flat fee</span>
+            <span class="pill"><span class="dot" aria-hidden="true"></span>Flat fee</span>
           </div>
           <ul>
             <li><span><span class="check" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Backlog categorized</span><span class="status">Step 1</span></li>
@@ -88,6 +90,7 @@
             <li><span><span class="check" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Monthly service begins</span><span class="status">Ongoing</span></li>
           </ul>
           <p class="close-card-foot">Need QuickBooks Online set up first? We do that too ($300–$500 one-time).</p>
+        </div>
         </div>
       </div>
     </section>
@@ -121,7 +124,7 @@
       </div>
     </section>
 
-    <section class="section section-soft" id="how-it-works" aria-labelledby="steps-title">
+    <section class="section section-dark" id="how-it-works" aria-labelledby="steps-title">
       <div class="wrap">
         <div class="section-head">
           <p class="eyebrow">How it works</p>
@@ -129,23 +132,24 @@
         </div>
         <ol class="steps">
           <li class="step">
-            <span class="step-num">Step 1</span>
+            <span class="step-num" data-n="1">Today</span>
             <h3>Book a free 15-minute call</h3>
             <p>Tell us how far behind you are and how you've handled your books so far. No judgment, no pressure.</p>
           </li>
           <li class="step">
-            <span class="step-num">Step 2</span>
+            <span class="step-num" data-n="2">Quote</span>
             <h3>Get a flat quote, then connect</h3>
             <p>We quote one flat fee based on how far behind you are and the condition of your records. You invite us to QuickBooks Online as your accountant. You never email passwords.</p>
           </li>
           <li class="step">
-            <span class="step-num">Step 3</span>
+            <span class="step-num" data-n="3">Catch-up, then monthly</span>
             <h3>Caught up, then kept current</h3>
             <p>We categorize, reconcile and review the backlog. Then, if you choose, we move you into monthly service so you never fall behind again.</p>
           </li>
         </ol>
         <div class="section-cta">
-          <a class="btn btn-primary" href="https://calendly.com/alex-atlanticbay/15min" data-book="how_it_works">Book a free 15-minute call <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn-on-dark" href="https://calendly.com/alex-atlanticbay/15min" data-book="how_it_works">Book a free 15-minute call <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="cta-note">No judgment and no obligation.</p>
         </div>
       </div>
     </section>
@@ -180,7 +184,7 @@
       </div>
     </section>
 
-    <section class="section section-soft" id="faq" aria-labelledby="faq-title">
+    <section class="section section-tint" id="faq" aria-labelledby="faq-title">
       <div class="wrap">
         <div class="section-head center">
           <p class="eyebrow">FAQ</p>
@@ -213,11 +217,13 @@
 
     <section class="final-cta" id="book" aria-labelledby="book-title">
       <div class="wrap">
+        <div class="final-panel">
         <div class="inner">
           <h2 id="book-title">Get your books current, and keep them that way.</h2>
           <p>Book a free 15-minute call. Tell us how far behind you are and we'll explain exactly what catch-up involves.</p>
           <a class="btn btn-on-dark" href="https://calendly.com/alex-atlanticbay/15min" data-book="final">Book a free 15-minute call <span class="arrow" aria-hidden="true">→</span></a>
           <p class="cta-note">Prefer email? Write to <a href="mailto:info@getsumify.com">info@getsumify.com</a>.</p>
+        </div>
         </div>
       </div>
     </section>
@@ -225,7 +231,10 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <p class="footer-legal">© 2026 Sumify LLC. Sumify provides bookkeeping services. It is not a CPA firm and does not provide tax, legal, or investment advice.</p>
+      <div class="footer-brand">
+        <img src="/assets/img/logo.png" alt="Sumify" width="98" height="28" loading="lazy">
+        <p class="footer-legal">© 2026 Sumify LLC. Sumify provides bookkeeping services. It is not a CPA firm and does not provide tax, legal, or investment advice.</p>
+      </div>
       <ul class="footer-links">
         <li><a href="/">Monthly bookkeeping</a></li>
         <li><a href="/privacy">Privacy policy</a></li>

@@ -22,7 +22,7 @@
   <link rel="icon" href="/assets/img/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/styles.css?v=2">
+  <link rel="stylesheet" href="/assets/css/styles.css?v=3">
 
   <script src="/assets/js/config.js?v=2" defer></script>
   <script src="/assets/js/tracking.js?v=2" defer></script>
@@ -80,8 +80,8 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Done-for-you bookkeeping for small businesses</p>
-          <h1 id="hero-title">Your bookkeeping, completely taken care of.</h1>
+          <p class="hero-badge"><span class="badge-dot" aria-hidden="true"></span>Done-for-you bookkeeping for small businesses</p>
+          <h1 id="hero-title">Your bookkeeping, completely <span class="accent">taken care&nbsp;of.</span></h1>
           <p class="lead">Stop doing your own books, or wondering whether they're right. We keep your QuickBooks Online categorized and reconciled, and a person you know sends you a plain-English Profit &amp; Loss every month.</p>
 
           <ul class="hero-points">
@@ -98,13 +98,15 @@
           <p class="cta-note">No obligation. You'll know which plan fits and what it costs before the call ends.</p>
         </div>
 
+        <div class="hero-visual">
+          <div class="float-badge float-badge-tl" aria-hidden="true"><span class="badge-dot"></span><span><small>Month-end</small>Books closed &amp; reviewed</span></div>
         <div class="close-card" role="group" aria-label="Sample monthly Profit and Loss report with illustrative figures">
           <div class="close-card-head">
             <div>
               <div class="close-card-label">September · Sample</div>
               <div class="close-card-title">Profit &amp; Loss</div>
             </div>
-            <span class="pill">Reconciled</span>
+            <span class="pill"><span class="dot" aria-hidden="true"></span>Reconciled</span>
           </div>
           <div class="stmt-rows" aria-hidden="true">
             <div class="row"><span>Revenue</span><span>$48,200</span></div>
@@ -123,6 +125,7 @@
             <span class="chip">Delivered by business day 10</span>
           </div>
           <p class="stmt-note">Sample report. Figures are illustrative.</p>
+        </div>
         </div>
       </div>
     </section>
@@ -192,7 +195,7 @@
     </section>
 
     <!-- ============ WHAT WE HANDLE ============ -->
-    <section class="section section-soft" aria-labelledby="services-title">
+    <section class="section section-tint" aria-labelledby="services-title">
       <div class="wrap">
         <div class="section-head">
           <p class="eyebrow">What's included</p>
@@ -247,7 +250,7 @@
     </section>
 
     <!-- ============ HOW IT WORKS ============ -->
-    <section class="section" id="how-it-works" aria-labelledby="steps-title">
+    <section class="section section-dark" id="how-it-works" aria-labelledby="steps-title">
       <div class="wrap">
         <div class="section-head">
           <p class="eyebrow">How it works</p>
@@ -256,23 +259,24 @@
         </div>
         <ol class="steps">
           <li class="step">
-            <span class="step-num">Step 1</span>
+            <span class="step-num" data-n="1">Today</span>
             <h3>Book a free 15-minute call</h3>
             <p>We ask how you handle your books today and confirm your monthly volume. You get an exact price, with no pressure to decide on the call.</p>
           </li>
           <li class="step">
-            <span class="step-num">Step 2</span>
+            <span class="step-num" data-n="2">Onboarding</span>
             <h3>Connect</h3>
             <p>You invite us to QuickBooks Online as your accountant. We review your chart of accounts and set up your monthly workflow. Behind on your books? We catch you up first.</p>
           </li>
           <li class="step">
-            <span class="step-num">Step 3</span>
+            <span class="step-num" data-n="3">Every month</span>
             <h3>Close and deliver, every month</h3>
             <p>We categorize, reconcile and review. Then your contact sends your Profit &amp; Loss and Balance Sheet within 10 business days of month-end.</p>
           </li>
         </ol>
         <div class="section-cta">
-          <a class="btn btn-primary" href="https://calendly.com/alex-atlanticbay/15min" data-book="how_it_works">Book a free 15-minute call <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn-on-dark" href="https://calendly.com/alex-atlanticbay/15min" data-book="how_it_works">Book a free 15-minute call <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="cta-note">Exact price before the call ends. No pressure to decide.</p>
         </div>
       </div>
     </section>
@@ -305,7 +309,7 @@
           </li>
 
           <li class="plan plan-featured">
-            <span class="plan-badge">Adds AR/AP + check-ins</span>
+            <span class="plan-badge"><span aria-hidden="true">●</span> Adds AR/AP + check-ins</span>
             <h3>Standard</h3>
             <p class="plan-for">For growing businesses that invoice customers and pay vendors.</p>
             <div class="plan-price"><span class="amount">$750</span><span class="per">/ month</span></div>
@@ -318,7 +322,7 @@
               <li><span class="check" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Basic AR/AP tracking</li>
               <li><span class="check" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Monthly 15-minute check-in call</li>
             </ul>
-            <a class="btn btn-primary btn-block" href="https://calendly.com/alex-atlanticbay/15min" data-book="pricing_standard" data-label="Book a free call (Standard)">Book a free call</a>
+            <a class="btn btn-on-dark btn-block" href="https://calendly.com/alex-atlanticbay/15min" data-book="pricing_standard" data-label="Book a free call (Standard)">Book a free call</a>
           </li>
 
           <li class="plan">
@@ -344,7 +348,10 @@
         </div>
 
         <div class="addons">
-          <h3>Add-ons, only if you need them</h3>
+          <div class="addons-head">
+            <h3>Add-ons</h3>
+            <p>Only if you need them.</p>
+          </div>
           <table class="addons-table">
             <thead><tr><th scope="col">Add-on</th><th scope="col">Price</th></tr></thead>
             <tbody>
@@ -390,7 +397,7 @@
     </section>
 
     <!-- ============ FAQ ============ -->
-    <section class="section section-soft" id="faq" aria-labelledby="faq-title">
+    <section class="section section-tint" id="faq" aria-labelledby="faq-title">
       <div class="wrap">
         <div class="section-head center">
           <p class="eyebrow">FAQ</p>
@@ -436,6 +443,7 @@
     <!-- ============ FINAL CTA ============ -->
     <section class="final-cta" id="book" aria-labelledby="book-title">
       <div class="wrap">
+        <div class="final-panel">
         <div class="inner">
           <h2 id="book-title">Get bookkeeping off your plate this month.</h2>
           <p>Book a free 15-minute call. We'll tell you which plan fits and what it costs before the call ends.</p>
@@ -451,13 +459,17 @@
             </ol>
           </div>
         </div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="wrap">
-      <p class="footer-legal">© 2026 Sumify LLC. Sumify provides bookkeeping services. It is not a CPA firm and does not provide tax, legal, or investment advice.</p>
+      <div class="footer-brand">
+        <img src="/assets/img/logo.png" alt="Sumify" width="98" height="28" loading="lazy">
+        <p class="footer-legal">© 2026 Sumify LLC. Sumify provides bookkeeping services. It is not a CPA firm and does not provide tax, legal, or investment advice.</p>
+      </div>
       <ul class="footer-links">
         <li><a href="/catch-up-bookkeeping">Catch-up bookkeeping</a></li>
         <li><a href="/privacy">Privacy policy</a></li>
