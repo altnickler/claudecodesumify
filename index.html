@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sumify | Monthly Bookkeeping for Small Businesses</title>
+<meta name="description" content="Flat-rate monthly bookkeeping on QuickBooks Online. Reconciled books, a dedicated contact, and a Profit and Loss in plain English by business day 10.">
+<link rel="canonical" href="https://getsumify.com/">
+<meta name="theme-color" content="#FFFFFF">
+
+<!-- TRACKING SLOT: paste the Google tag (Google Ads / GA4) snippet from your Google account here. -->
+<!-- TRACKING SLOT: paste the Meta Pixel base code from Meta Events Manager here. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: a bookkeeper's statement. Plain white ground, ruled lines, mono figures, one teal accent. Sections are cut down to five. */
+:root{
+  --ink:#0F2540;
+  --ink-soft:#55677A;
+  --teal:#17A9A5;
+  --teal-deep:#0C7B78;
+  --paper:#FFFFFF;
+  --wash:#F4F7F9;
+  --line:#DCE3E9;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:6px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-0.02em;text-wrap:balance;line-height:1.12}
+p{margin:0}
+a{color:inherit}
+.wrap{max-width:1120px;margin-inline:auto;padding-inline:clamp(16px,4vw,32px)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-deep);font-weight:500}
+:focus-visible{outline:2px solid var(--teal-deep);outline-offset:3px;border-radius:3px}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font:600 15px/1 var(--sans);text-decoration:none;cursor:pointer;
+  padding:14px 20px;border-radius:var(--r);border:1px solid transparent;
+  transition:background .15s,border-color .15s;
+}
+.btn-primary{background:var(--teal);color:var(--ink)}
+.btn-primary:hover{background:#13948F}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--ink)}
+
+/* Header */
+.site-header{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:10;
+  background:var(--paper);border-bottom:1px solid var(--line);
+}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.logo{display:block;height:34px;width:auto}
+.nav{display:flex;align-items:center;gap:28px}
+.nav a.link{font-size:14.5px;font-weight:500;text-decoration:none;color:var(--ink-soft)}
+.nav a.link:hover{color:var(--ink)}
+.nav .btn{padding:10px 16px;font-size:14px}
+@media (max-width:720px){.nav a.link{display:none}}
+
+/* Hero */
+.hero{padding-block:clamp(40px,7vw,88px) clamp(48px,7vw,96px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(32px,5vw,72px);align-items:center}
+@media (max-width:900px){.hero-grid{grid-template-columns:minmax(0,1fr)}}
+.hero h1{font-size:clamp(38px,5.6vw,64px);margin-top:16px}
+.hero .lede{font-size:clamp(17px,1.6vw,19px);color:var(--ink-soft);margin-top:20px;max-width:34em}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.hero-facts{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:28px;padding:0;list-style:none;font-size:14px;color:var(--ink-soft)}
+.hero-facts li::before{content:"";display:inline-block;width:6px;height:6px;background:var(--teal);margin-right:8px;vertical-align:middle}
+
+/* Sample statement */
+.stmt{border:1px solid var(--line);border-radius:var(--r);background:var(--paper);box-shadow:0 1px 0 var(--line),0 24px 48px -28px rgba(15,37,64,.28);overflow:hidden}
+.stmt-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--wash)}
+.stmt-head strong{font-size:15px;font-weight:600}
+.stmt-head span{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);letter-spacing:.02em}
+.stmt-body{padding:8px 20px 4px}
+.row{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.row span:last-child{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:14px}
+.row.sub{padding-left:16px;color:var(--ink-soft)}
+.row.total{font-weight:600;border-bottom:0}
+.row.net{border-top:2px solid var(--ink);border-bottom:0;margin-top:2px;padding:12px 0;font-weight:700}
+.stmt-foot{display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px 18px;border-top:1px solid var(--line)}
+.chip{font-family:var(--mono);font-size:11.5px;padding:5px 9px;border:1px solid var(--line);border-radius:3px;color:var(--ink)}
+.chip.ok{border-color:var(--teal);color:var(--teal-deep)}
+.stmt-note{font-size:12.5px;color:var(--ink-soft);margin-top:12px;text-align:center}
+
+/* Sections */
+section.block{padding-block:clamp(56px,8vw,104px);border-top:1px solid var(--line)}
+section.wash{background:var(--wash)}
+.sec-head{max-width:40em;margin-bottom:clamp(32px,4vw,48px)}
+.sec-head h2{font-size:clamp(28px,3.6vw,40px);margin-top:12px}
+.sec-head p{color:var(--ink-soft);margin-top:14px;font-size:17px}
+
+/* How it works */
+.rail{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-bottom:12px}
+.rail i{height:10px;background:var(--line);border-radius:2px}
+.rail i:last-child{background:var(--teal)}
+.rail-labels{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-bottom:clamp(32px,4vw,48px)}
+.rail-labels b{font-weight:500;color:var(--teal-deep)}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,48px);padding:0;margin:0;list-style:none;counter-reset:s}
+@media (max-width:820px){.steps{grid-template-columns:minmax(0,1fr)}}
+.steps li{counter-increment:s;border-top:2px solid var(--ink);padding-top:16px}
+.steps li::before{content:"Step " counter(s);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-deep)}
+.steps h3{font-size:21px;margin:8px 0 10px}
+.steps p{color:var(--ink-soft)}
+
+/* Scope */
+.scope{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,4vw,56px)}
+@media (max-width:760px){.scope{grid-template-columns:minmax(0,1fr)}}
+.scope h3{font-size:20px;padding-bottom:12px;border-bottom:2px solid var(--ink)}
+.scope ul{list-style:none;margin:0;padding:0}
+.scope li{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.scope li svg{flex:none;width:18px;height:18px;margin-top:3px}
+.scope .no li{color:var(--ink-soft)}
+.scope-note{margin-top:20px;font-size:14.5px;color:var(--ink-soft);max-width:44em}
+
+/* Pricing */
+.plans{width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.plans th,.plans td{padding:14px 20px;text-align:left;border-bottom:1px solid var(--line);font-size:15px;vertical-align:top}
+.plans thead th{vertical-align:bottom;padding-top:24px;padding-bottom:20px;border-bottom:2px solid var(--ink);font-weight:400}
+.plans th[scope=row]{font-weight:500;color:var(--ink-soft);width:28%}
+.plan-name{display:block;font-weight:600;font-size:18px;color:var(--ink)}
+.plan-price{display:block;font-family:var(--mono);font-size:clamp(28px,3.4vw,38px);font-weight:500;letter-spacing:-.02em;margin-top:4px;color:var(--ink)}
+.plan-price small{font-size:14px;color:var(--ink-soft);font-weight:400;letter-spacing:0}
+.plans td.mono{font-size:14.5px}
+.plans tbody tr:last-child th,.plans tbody tr:last-child td{border-bottom:0}
+.plans .dash{color:var(--ink-soft)}
+.tbl-scroll{overflow-x:auto}
+.tbl-scroll .plans{min-width:700px}
+.price-sub{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,4vw,56px);margin-top:clamp(40px,5vw,64px)}
+@media (max-width:760px){.price-sub{grid-template-columns:minmax(0,1fr)}}
+.price-sub h3{font-size:20px;margin-bottom:6px}
+.price-sub .cap{font-size:14.5px;color:var(--ink-soft);margin-bottom:14px}
+.ledger{width:100%;border-collapse:collapse;font-size:15px}
+.ledger th,.ledger td{text-align:left;padding:11px 0;border-bottom:1px solid var(--line);font-weight:400}
+.ledger thead th{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);border-bottom:2px solid var(--ink);padding-top:0}
+.ledger td:last-child,.ledger th:last-child{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:14px}
+.ledger thead th:last-child{font-family:var(--mono)}
+
+/* FAQ */
+.faq{max-width:760px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:first-child{border-top:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-size:18px;font-weight:600;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--mono);font-size:22px;font-weight:400;color:var(--teal-deep);flex:none;width:24px;text-align:center}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{padding:0 40px 22px 0;color:var(--ink-soft);max-width:40em}
+
+/* Contact */
+.contact{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,6vw,80px);align-items:start}
+@media (max-width:860px){.contact{grid-template-columns:minmax(0,1fr)}}
+.contact h2{font-size:clamp(30px,4vw,44px);margin-top:12px}
+.contact .lede{color:var(--ink-soft);margin-top:16px;font-size:17px;max-width:30em}
+.call-list{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:14px}
+.call-list li{display:flex;gap:12px;color:var(--ink)}
+.call-list li::before{content:"";flex:none;width:6px;height:6px;background:var(--teal);margin-top:10px}
+form.intake{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:clamp(20px,3vw,32px);display:grid;gap:18px}
+.field{display:grid;gap:6px;min-width:0}
+.field-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:560px){.field-row{grid-template-columns:minmax(0,1fr)}}
+label{font-size:13.5px;font-weight:600}
+label .opt{font-weight:400;color:var(--ink-soft)}
+input,select,textarea{
+  width:100%;font:400 16px/1.4 var(--sans);color:var(--ink);background:var(--paper);
+  border:1px solid #B9C5D0;border-radius:var(--r);padding:12px 14px;
+}
+textarea{min-height:92px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--teal-deep);outline-offset:1px;border-color:var(--teal-deep)}
+.form-msg{font-size:14px;color:var(--ink-soft);min-height:1.4em}
+.form-msg.show{padding:12px 14px;background:var(--wash);border:1px solid var(--line);border-radius:var(--r);color:var(--ink)}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding-block:32px}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.foot .logo{height:26px}
+.foot p{font-size:13px;color:var(--ink-soft);max-width:46em}
+
+body{margin:0}
+.book{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:clamp(24px,3vw,36px);display:grid;gap:16px}
+.book h3{font-size:22px}
+.book p{color:var(--ink-soft)}
+.book .btn{justify-self:start}
+.book .alt{font-size:14.5px}
+.book .alt a{color:var(--teal-deep);font-weight:600}
+.foot-links{display:flex;gap:20px;font-size:13px}
+.foot-links a{color:var(--ink-soft)}
+.page{max-width:720px;margin-inline:auto;padding-inline:clamp(16px,4vw,32px);padding-block:clamp(40px,7vw,88px)}
+.page h1{font-size:clamp(32px,4.6vw,48px);margin-top:12px}
+.page h2{font-size:21px;margin-top:36px;margin-bottom:8px}
+.page p,.page li{color:var(--ink-soft);margin-top:10px}
+.page ul{padding-left:20px}
+.page a{color:var(--teal-deep)}
+.next{padding-left:22px;margin-top:18px}
+.next li{margin-top:12px}
+</style>
+
+
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="#top" aria-label="Sumify home"><img class="logo" alt="Sumify" src="logo.png"></a>
+    <nav class="nav" aria-label="Primary">
+      <a class="link" href="#how">How it works</a>
+      <a class="link" href="#pricing">Pricing</a>
+      <a class="link" href="#faq">FAQ</a>
+      <a class="btn btn-primary" href="https://calendly.com/alex-atlanticbay/15min" target="_blank" rel="noopener">Book a call</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Bookkeeping for small business owners</p>
+        <h1>Know exactly where your business stands, every month.</h1>
+        <p class="lede">Stop doing your own books, or wondering whether they're right. We keep your QuickBooks Online accurate and reconciled, and a person you know sends you a plain-English Profit &amp; Loss by business day 10.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="https://calendly.com/alex-atlanticbay/15min" target="_blank" rel="noopener">Book a 15-minute call</a>
+          <a class="btn btn-ghost" href="#pricing">See pricing</a>
+        </div>
+        <ul class="hero-facts">
+          <li>From $500 a month</li>
+          <li>One dedicated contact</li>
+          <li>Catch-up cleanup available</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="stmt" role="img" aria-label="Sample monthly Profit and Loss report with illustrative figures">
+          <div class="stmt-head"><strong>Profit &amp; Loss</strong><span>SEPTEMBER &middot; SAMPLE</span></div>
+          <div class="stmt-body">
+            <div class="row"><span>Revenue</span><span>$48,200</span></div>
+            <div class="row"><span>Cost of services</span><span>($14,900)</span></div>
+            <div class="row total"><span>Gross profit</span><span>$33,300</span></div>
+            <div class="row sub"><span>Payroll</span><span>$17,400</span></div>
+            <div class="row sub"><span>Rent</span><span>$3,600</span></div>
+            <div class="row sub"><span>Marketing</span><span>$2,950</span></div>
+            <div class="row sub"><span>Software</span><span>$1,850</span></div>
+            <div class="row sub"><span>Other expenses</span><span>$1,700</span></div>
+            <div class="row net"><span>Net income</span><span>$5,800</span></div>
+          </div>
+          <div class="stmt-foot">
+            <span class="chip ok">2 of 2 accounts reconciled</span>
+            <span class="chip ok">Reviewed twice</span>
+            <span class="chip">Delivered by business day 10</span>
+          </div>
+        </div>
+        <p class="stmt-note">Sample report. Figures are illustrative.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wash" id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">How it works</p>
+        <h2>You connect QuickBooks once. We handle the month.</h2>
+      </div>
+      <div class="rail" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="rail-labels" aria-hidden="true"><span>Month-end</span><b>Reports delivered by business day 10</b></div>
+      <ol class="steps">
+        <li>
+          <h3>Connect</h3>
+          <p>You send a QuickBooks Online accountant invite. We review your chart of accounts and set up your monthly workflow. You never email passwords.</p>
+        </li>
+        <li>
+          <h3>Close</h3>
+          <p>Each month we categorize your transactions, reconcile your bank and credit card accounts, and check the work a second time before it leaves us.</p>
+        </li>
+        <li>
+          <h3>Deliver</h3>
+          <p>Your contact sends your Profit &amp; Loss and Balance Sheet with a short plain-English summary, within 10 business days of month-end.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="scope">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Scope</p>
+        <h2>What you get, and what you don't.</h2>
+        <p>Bookkeeping, done well. We tell you up front where our work stops so there are no surprises later.</p>
+      </div>
+      <div class="scope">
+        <div>
+          <h3>Included every month</h3>
+          <ul>
+            <li><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9.5l4 4 8-9" stroke="#0C7B78" stroke-width="2" stroke-linecap="square"/></svg>Transaction categorization</li>
+            <li><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9.5l4 4 8-9" stroke="#0C7B78" stroke-width="2" stroke-linecap="square"/></svg>Bank and credit card reconciliation</li>
+            <li><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9.5l4 4 8-9" stroke="#0C7B78" stroke-width="2" stroke-linecap="square"/></svg>Profit &amp; Loss and Balance Sheet</li>
+            <li><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9.5l4 4 8-9" stroke="#0C7B78" stroke-width="2" stroke-linecap="square"/></svg>A plain-English summary from your dedicated contact</li>
+            <li><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9.5l4 4 8-9" stroke="#0C7B78" stroke-width="2" stroke-linecap="square"/></svg>A second review before anything reaches you</li>
+          </ul>
+        </div>
+        <div class="no">
+          <h3>Not included</h3>
+          <ul>
+            <li><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 4l10 10M14 4L4 14" stroke="#55677A" stroke-width="2" stroke-linecap="square"/></svg>Tax preparation or filing</li>
+            <li><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 4l10 10M14 4L4 14" stroke="#55677A" stroke-width="2" stroke-linecap="square"/></svg>Running payroll or filing payroll taxes</li>
+            <li><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 4l10 10M14 4L4 14" stroke="#55677A" stroke-width="2" stroke-linecap="square"/></svg>Financial advisory or CFO services</li>
+            <li><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 4l10 10M14 4L4 14" stroke="#55677A" stroke-width="2" stroke-linecap="square"/></svg>Bookkeeping on software other than QuickBooks Online</li>
+          </ul>
+        </div>
+      </div>
+      <p class="scope-note">Your CPA or tax preparer works from the books we keep. Clean monthly records make their year-end faster.</p>
+    </div>
+  </section>
+
+  <section class="block wash" id="pricing">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Pricing</p>
+        <h2>Flat monthly rates. Cleanup quoted once.</h2>
+        <p>Three plans, based on how many transactions and accounts you have each month.</p>
+      </div>
+
+      <div class="tbl-scroll">
+        <table class="plans">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"><span class="plan-name">Starter</span><span class="plan-price">$500<small> /mo</small></span></th>
+              <th scope="col"><span class="plan-name">Standard</span><span class="plan-price">$750<small> /mo</small></span></th>
+              <th scope="col"><span class="plan-name">Growth</span><span class="plan-price">$1,500<small> /mo</small></span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Transactions per month</th><td class="mono">Up to 150</td><td class="mono">Up to 300</td><td class="mono">Up to 750</td></tr>
+            <tr><th scope="row">Accounts reconciled</th><td class="mono">Up to 2</td><td class="mono">Up to 4</td><td class="mono">Up to 8</td></tr>
+            <tr><th scope="row">Categorization and reconciliation</th><td>Included</td><td>Included</td><td>Included</td></tr>
+            <tr><th scope="row">Profit &amp; Loss and Balance Sheet</th><td>Included</td><td>Included</td><td>Included</td></tr>
+            <tr><th scope="row">Basic AR/AP tracking</th><td class="dash">Not included</td><td>Included</td><td>Included</td></tr>
+            <tr><th scope="row">Monthly check-in call</th><td class="dash">Not included</td><td>15 minutes</td><td>30 minutes</td></tr>
+            <tr><th scope="row">Delivery</th><td>Within 10 business days</td><td>Within 10 business days</td><td>Within 10 business days</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="price-sub">
+        <div>
+          <h3>Add-ons</h3>
+          <p class="cap">Only if you need them.</p>
+          <table class="ledger">
+            <thead><tr><th scope="col">Add-on</th><th scope="col">Price</th></tr></thead>
+            <tbody>
+              <tr><td>Extra transactions, per 100 over limit</td><td>+$75/mo</td></tr>
+              <tr><td>Additional bank or credit card account</td><td>+$25/mo each</td></tr>
+              <tr><td>Payroll support</td><td>+$15/mo per employee</td></tr>
+              <tr><td>QuickBooks Online setup</td><td>$300&ndash;$500</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3>Catch-up cleanup</h3>
+          <p class="cap">Behind on your books? We bring them current first, as a flat one-time fee, then start monthly service.</p>
+          <table class="ledger">
+            <thead><tr><th scope="col">Months behind</th><th scope="col">Typical fee</th></tr></thead>
+            <tbody>
+              <tr><td>1&ndash;3 months</td><td>$300&ndash;$600</td></tr>
+              <tr><td>3&ndash;6 months</td><td>$600&ndash;$1,200</td></tr>
+              <tr><td>6&ndash;12 months</td><td>$1,200&ndash;$2,500</td></tr>
+              <tr><td>1&ndash;2 years</td><td>$2,500&ndash;$5,000</td></tr>
+              <tr><td>2+ years or none yet</td><td>$5,000+</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Questions</p>
+        <h2>Before you book.</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Do I need to already use QuickBooks Online?</summary>
+          <p>Yes, we work in QuickBooks Online on your own subscription. If you are on something else, or starting from spreadsheets, we can set up QuickBooks Online for you for a one-time $300&ndash;$500.</p>
+        </details>
+        <details>
+          <summary>What if my books are months behind?</summary>
+          <p>That is common. We quote a flat one-time cleanup fee based on how far behind you are and the condition of the records, then move you into monthly service once you are current.</p>
+        </details>
+        <details>
+          <summary>Who will I actually talk to?</summary>
+          <p>One dedicated contact, from your first call through every monthly report. They know your business, answer your questions, and send your reports. Other people do the production work behind them, so your books keep moving if someone is out.</p>
+        </details>
+        <details>
+          <summary>What access do you need to my accounts?</summary>
+          <p>You invite us to your QuickBooks Online file as your accountant, and we work from your connected bank and card feeds. You never email passwords.</p>
+        </details>
+        <details>
+          <summary>What happens if I go over my transaction limit?</summary>
+          <p>Extra transactions are +$75 a month per 100 over your plan limit. If you go over regularly, we will suggest the plan that fits.</p>
+        </details>
+        <details>
+          <summary>Do you file my taxes?</summary>
+          <p>No. We keep your books accurate and current, and your CPA or tax preparer uses them at tax time. If you do not have one, we can talk about what to look for.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wash" id="contact">
+    <div class="wrap contact">
+      <div>
+        <p class="eyebrow">Get started</p>
+        <h2>Book a 15-minute call.</h2>
+        <p class="lede">Pick a time and we will tell you which plan fits, and what it costs, before the call ends.</p>
+        <ul class="call-list">
+          <li>We ask how you handle your books today.</li>
+          <li>We confirm QuickBooks Online and your monthly volume.</li>
+          <li>You get an exact price. No pressure to decide on the call.</li>
+        </ul>
+      </div>
+
+      <div class="book">
+        <h3>Pick a time that works for you</h3>
+        <p>Choose a 15-minute slot. You will answer two quick questions so we come prepared, and you will get a calendar invite right away.</p>
+        <a class="btn btn-primary" href="https://calendly.com/alex-atlanticbay/15min" target="_blank" rel="noopener">See available times</a>
+        <p class="alt">Prefer email? Write to <a href="mailto:info@getsumify.com">info@getsumify.com</a>.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <img class="logo" alt="Sumify" src="logo.png">
+    <p>&copy; 2026 Sumify LLC. Sumify provides bookkeeping services. It is not a CPA firm and does not provide tax, legal, or investment advice.</p>
+    <div class="foot-links"><a href="privacy.html">Privacy policy</a></div>
+  </div>
+</footer>
+
+
+
+<script>
+(function(){try{
+var keys=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+var q=new URLSearchParams(location.search),tags={};
+keys.forEach(function(k){var v=q.get(k);if(v)tags[k]=v;});
+if(Object.keys(tags).length){sessionStorage.setItem('sumify_utm',JSON.stringify(tags));}
+else{var saved=sessionStorage.getItem('sumify_utm');if(saved)tags=JSON.parse(saved);}
+document.querySelectorAll('a[href^="https://calendly.com/"]').forEach(function(a){
+  var u=new URL(a.href);
+  for(var k in tags){u.searchParams.set(k,tags[k]);}
+  a.href=u.toString();
+  a.addEventListener('click',function(){
+    if(window.gtag){gtag('event','book_click');}
+    if(window.fbq){fbq('trackCustom','BookClick');}
+  });
+});
+}catch(e){}})();
+</script>
+</body>
+</html>
