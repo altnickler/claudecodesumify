@@ -4,7 +4,7 @@ Static HTML/CSS/JS site for **getsumify.com**, built for paid search traffic. It
 There is no build step, framework or backend, and nothing in the browser is secret.
 
 ```
-public/                          ← upload THIS folder to Cloudflare Pages
+public/                          ← the deployed site (Cloudflare build output directory)
 ├── index.html                   Monthly bookkeeping landing page (primary ad destination)
 ├── catch-up-bookkeeping.html    Catch-up / cleanup landing page (for catch-up keywords)
 ├── thank-you.html               Post-booking page (conversion only with a Calendly booking ID)
@@ -55,6 +55,17 @@ After editing JS or CSS, bump `?v=2` → `?v=3` in the HTML `<script>`/`<link>` 
 5. To update later: project → **Create new deployment** → upload `public` again. Every deployment gets a preview URL, and you can roll back from **Deployments**.
 
 CLI alternative (optional): `npx wrangler pages deploy public --project-name sumify`.
+
+### 2b. Automatic deploys from GitHub (recommended): `main` is production
+
+1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git** → authorize GitHub → choose `altnickler/claudecodesumify`.
+2. **Production branch:** `main`.
+3. **Framework preset:** None. **Build command:** leave empty. **Build output directory:** `public`.
+   This setting matters. Without it, Cloudflare would publish the repo root, which still contains the old site files.
+4. **Save and Deploy.** From then on every push to `main` deploys to production. Pushes to other branches get preview URLs (`<branch>.<project>.pages.dev`).
+5. A project created with **Direct Upload** can't be switched to Git later. If you already made one, create a new Git-connected project, then move the custom domains to it (§3).
+
+> **Legacy files:** `index.html`, `privacy.html`, `thank-you.html` and `logo.png` at the repo root are the previous site, kept unchanged from the original upload. They are **not** deployed (only `public/` is) and can be deleted whenever you like.
 
 ## 3. Custom domain: getsumify.com
 
