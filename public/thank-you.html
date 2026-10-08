@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thank you | Sumify</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Next steps for your Sumify discovery call.">
+  <link rel="canonical" href="https://getsumify.com/thank-you">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/styles.css?v=3">
+  <script src="/assets/js/config.js?v=2" defer></script>
+  <script src="/assets/js/tracking.js?v=2" defer></script>
+  <script src="/assets/js/main.js?v=2" defer></script>
+  <script src="/assets/js/thank-you.js?v=2" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/"><img src="/assets/img/logo.png" alt="Sumify" width="126" height="36"></a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero thanks-hero">
+      <div class="wrap">
+        <!-- Default (no confirmed booking in the URL): neutral, makes no booking claim. -->
+        <div data-state="neutral">
+          <p class="eyebrow">Thanks for stopping by</p>
+          <h1>Check your inbox for your calendar invite.</h1>
+          <p>If you just booked a call, Calendly has emailed your confirmation and calendar invite. If you haven't picked a time yet, you can do that now.</p>
+        </div>
+        <!-- Shown by thank-you.js only when Calendly passed a booking ID. -->
+        <div data-state="confirmed" hidden>
+          <p class="eyebrow">Call booked</p>
+          <h1>You're on the calendar<span data-first-name></span>.</h1>
+          <p>Your calendar invite is on its way by email. Here's what happens next.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="confirm-card">
+        <p class="confirm-meta" data-start-time hidden></p>
+
+        <div data-state="neutral">
+          <h2>Haven't booked yet?</h2>
+          <p>Pick a 15-minute slot. We'll tell you which plan fits and what it costs before the call ends.</p>
+          <p><a class="btn btn-primary" href="https://calendly.com/alex-atlanticbay/15min" data-book="thank_you_neutral">Book a free 15-minute call</a></p>
+        </div>
+
+        <h2>What happens next</h2>
+        <ol>
+          <li><strong>Before the call.</strong> If you can, jot down roughly how many transactions and how many bank or card accounts your business has each month. It lets us quote an exact price.</li>
+          <li><strong>On the call (15 minutes).</strong> We ask about your books, tell you which plan fits and what it costs, and answer your questions. No pressure.</li>
+          <li><strong>After the call.</strong> If you want to go ahead, you get a short engagement letter to sign and a link to set up payment. We then walk you through giving us access to QuickBooks Online.</li>
+        </ol>
+        <p>Need to reschedule? Use the link in your Calendly confirmation email. Questions before then? Write to <a href="mailto:info@getsumify.com">info@getsumify.com</a>.</p>
+        <p><a href="/">Back to the site</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-brand">
+        <img src="/assets/img/logo.png" alt="Sumify" width="98" height="28" loading="lazy">
+        <p class="footer-legal">© 2026 Sumify LLC. Sumify provides bookkeeping services. It is not a CPA firm and does not provide tax, legal, or investment advice.</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="/privacy">Privacy policy</a></li>
+        <li><button type="button" data-consent-open>Privacy choices</button></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

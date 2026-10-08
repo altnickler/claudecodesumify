@@ -1,0 +1,35 @@
+# Cloudflare Pages headers — https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://assets.calendly.com https://www.googletagmanager.com https://*.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://assets.calendly.com; img-src 'self' data: https:; font-src 'self' https://assets.calendly.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://connect.facebook.net https://www.facebook.com https://calendly.com; frame-src https://calendly.com https://www.googletagmanager.com https://td.doubleclick.net https://*.doubleclick.net https://www.facebook.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+
+/thank-you
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store
+
+/404
+  X-Robots-Tag: noindex
+
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/assets/img/*
+  Cache-Control: public, max-age=2592000
+
+/assets/css/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/assets/js/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+# Keep the *.pages.dev preview hostname out of search results
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
