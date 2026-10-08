@@ -1,0 +1,11 @@
+# Cloudflare Pages redirects (path-based, same host only).
+# Cross-domain redirects (sumify.io, www) are configured in the Cloudflare
+# dashboard — see README "Domains & redirects".
+
+# Note: Pages already 308-redirects /page.html -> /page (query string kept),
+# so the previous site's /thank-you.html and /privacy.html URLs keep working.
+
+# Friendly short links
+/catch-up              /catch-up-bookkeeping   301
+/cleanup               /catch-up-bookkeeping   301
+/book                  https://calendly.com/alex-atlanticbay/15min  302
