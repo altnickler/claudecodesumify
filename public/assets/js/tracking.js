@@ -156,8 +156,25 @@
   /* ------------------------------------------------------------------
    * 5. Event API
    * ------------------------------------------------------------------ */
+  /*
+   * Landing-page context (/lp/* only). Pages declare <body data-lp="slug"
+   * data-lp-campaign="id">; /thank-you receives them as ?lp=&lpc= from the
+   * embed redirect, or via utm_content=lp_<slug> from a Calendly redirect.
+   * Returns {} everywhere else, so other pages' events are unchanged.
+   */
+  var LABEL = /^[a-z0-9_-]{1,60}$/;
+  function pageContext() {
+    var b = document.body;
+    var lp = (b && b.getAttribute("data-lp")) || "";
+    var lpc = (b && b.getAttribute("data-lp-campaign")) || "";
+    if (!lp && urlParams.lp) { lp = urlParams.lp; lpc = urlParams.lpc || ""; }
+    if (!lp && urlParams.utm_content && /^lp_/.test(urlParams.utm_content)) lp = urlParams.utm_content.slice(3);
+    if (!LABEL.test(lp)) return {};
+    return { landing_page: lp, lp_campaign: LABEL.test(lpc) ? lpc : "" };
+  }
+
   function track(name, params) {
-    params = params || {};
+    params = extend(pageContext(), params || {});
     // GTM / any dataLayer consumer
     window.dataLayer.push(extend({ event: name }, params));
     // gtag direct to GA4
@@ -281,6 +298,7 @@
     track: track,
     recordBooking: recordBooking,
     getAttribution: getAttribution,
+    pageContext: pageContext,
     urlParams: urlParams,
     setConsent: setConsent,
     log: log

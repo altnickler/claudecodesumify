@@ -2,7 +2,12 @@
   "name": "sumify-site-qa",
   "private": true,
   "description": "Local QA for the static site. Not deployed. Run: npm install && npx serve -l 8787 ../public & node qa.js",
-  "scripts": { "qa": "node qa.js" },
+  "scripts": {
+    "qa": "node qa.js",
+    "qa:lp": "node qa-lp.js",
+    "lp:build": "node lp/build.mjs",
+    "lp:check": "node lp/build.mjs --check"
+  },
   "devDependencies": {
     "axe-core": "4.10.2",
     "playwright": "1.56.1"

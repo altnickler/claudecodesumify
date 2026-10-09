@@ -223,3 +223,13 @@ The suite covers:
 - The hero P&L card is the previous site's sample, still labeled "Sample report. Figures are illustrative."
 - There are **no testimonials, ratings, client counts or guarantees**. A commented placeholder in `index.html` (after the trust strip) marks where to add *real*, permissioned testimonials later.
 - `privacy.html` is a draft updated for the new tracking (Consent Mode, click IDs, Calendly, Cloudflare). Have your attorney review it.
+
+---
+
+## 10. Niche landing pages (`/lp/<slug>/`)
+
+Unlisted, `noindex` Google Ads landing pages generated from one template and one JSON config per niche:
+`lp/niches/*.json` → `node tools/lp/build.mjs` → `public/lp/<slug>/index.html`.
+They load `public/assets/css/lp.css` on top of the production styles, so production pages are unaffected.
+Full guide, field reference, Calendly setup and tracking: **`lp/README.md`**. Tests: `tools/qa-lp.js`.
+Only `/lp/template-preview/` (placeholder content) exists until a real niche is approved.
