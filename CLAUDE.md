@@ -15,7 +15,7 @@ Static site for getsumify.com, deployed by Cloudflare Pages from GitHub. Output 
 
 ## Google Ads landing pages (`/lp/`)
 - There is ONE landing page: `public/lp/owner-operator-trucking/index.html` (owner-operators with 1–3 trucks). It's hand-written static HTML with page-only styles in `public/assets/css/lp-trucking.css` and the inline scheduler in `public/assets/js/lp-calendly.js`. There's no generator or template system. Don't create other niche pages unless the owner asks for a specific one.
-- Fixed structure: hero → inline Calendly → before/after → who it's for → who it's not for → FAQ → small closing reminder → legal footer. One conversion: the free 15-minute call. No site navigation, no pricing table, no services catalog.
+- Fixed structure: hero → inline Calendly → before/after (3 + 3) → who it's for (3) → who it's not for (3) → FAQ (max 4, ending in one quiet "Pick a time ↑" link) → legal footer. One conversion: the free 15-minute call. Keep it restrained: no site navigation, header links, sticky bar, offer cards, pricing table, services catalog, repeated pricing or extra paragraphs.
 - Landing pages are unlisted: `noindex, follow` (meta + `_headers` for `/lp/*`), never in `sitemap.xml`, navigation or the footer, and never blocked in `robots.txt` (AdsBot must crawl).
 - Don't claim IFTA, DOT compliance, fuel-tax, dispatch or per-truck analytics services. Don't invent testimonials, results or ratings.
 - Tests: `tools/qa-trucking.js` plus `tools/qa.js`.

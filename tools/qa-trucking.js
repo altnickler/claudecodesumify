@@ -46,17 +46,26 @@ async function ctxWith(browser, opts = {}, calendly = 'stub') {
 
   console.log('\n[1] Content acceptance criteria');
   const text = HTML.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ');
-  check(/Running 1–3 Trucks\?/.test(text), 'hero says "Running 1–3 Trucks?"');
-  check(/owner-operators & small trucking fleets/i.test(text) && /owner-operators and trucking companies with 1–3 trucks/.test(text), 'targets owner-operators and small trucking fleets (1–3 trucks)');
-  check(/starting at \$500\/month/.test(text), 'price anchor "starting at $500/month" present');
-  check(/Your Books Shouldn't Be Another Load You're Carrying\./.test(text) && /Fuel receipts, settlement records/.test(text), 'trucking-specific before/after');
-  check(/Built for Owner-Operators Who Mean Business\./.test(text) && /Not Every Trucking Business Needs Us\./.test(text), 'explicit who-it\'s-for and who-it\'s-not-for');
-  check((HTML.match(/<details>/g) || []).length === 7 && /IFTA/.test(text) && /settlement deposits\?/.test(text), '7 trucking FAQs incl. IFTA and settlements');
+  const count = re => (HTML.match(re) || []).length;
+  check(/For owner-operators with 1–3 trucks/.test(text), 'eyebrow: "For owner-operators with 1–3 trucks"');
+  check(/You Drive\.\s+We Handle the Books\./.test(text), 'headline: "You Drive. We Handle the Books."');
+  check(/done-for-you bookkeeping from \$500\/month/.test(text), 'hero states "from $500/month"');
+  check(/Let's Get Your Books Handled\./.test(text) && /Free 15-minute call · No obligation/.test(text), 'calendar heading + "Free 15-minute call · No obligation"');
+  const ba = HTML.slice(HTML.indexOf('id="ba-title"'), HTML.indexOf('lpt-fit'));
+  check((ba.match(/<li>/g) || []).length === 6 && /Receipts and settlements piling up/.test(ba) && /Clear financial reports/.test(ba), 'before/after: exactly 3 + 3 trucking points');
+  const fit = HTML.slice(HTML.indexOf('lpt-fit-grid'), HTML.indexOf('id="faq-title"'));
+  check(/Made for Trucking Business Owners\./.test(fit) && /Probably Not the Right Fit If…/.test(fit) && (fit.match(/<li>/g) || []).length === 6, 'who it\'s for / not for: 3 + 3 points');
+  check(/starting at \$500\/month/.test(fit) && /company driver, not a business owner/.test(fit), 'fit lists include the $500 minimum and the company-driver exclusion');
+  check(count(/<details>/g) === 4 && /IFTA/.test(text) && /QuickBooks Online/.test(text), 'exactly 4 FAQs, incl. IFTA and a QuickBooks Online note');
+  check(!/sticky-cta/.test(HTML), 'no sticky booking bar');
+  check((HTML.slice(HTML.indexOf('<body')).match(/\$500/g) || []).length <= 3, 'visible price mentioned at most 3 times (hero, fit, FAQ)');
+  const paras = (HTML.match(/<(?:p|li|h[1-3]|summary)[^>]*>([\s\S]*?)<\/(?:p|li|h[1-3]|summary)>/g) || []).map(x => x.replace(/<[^>]+>/g, '').trim()).filter(Boolean);
+  check(paras.length === new Set(paras).size, 'no repeated text blocks');
   check(!/\$750|\$1,500|Starter|Standard|Growth plan|Add-ons/.test(text), 'no three-plan pricing table or add-on list');
   check(!/What Sumify handles every month|Catch-up fee schedule|How it works/.test(text), 'no homepage services catalog / process / catch-up sections');
   check(!/testimonial|★|rated|\d+\+ (clients|truckers|businesses)|guarantee|save \$|saved/i.test(text), 'no fabricated proof, ratings, savings or guarantees');
   check(!/IFTA filing (included|service)|DOT compliance service|fuel tax prep|dispatch service|per-truck profitability/i.test(text), 'no unverified transportation-specific services claimed');
-  const order = ['hero-title', 'book-title', 'ba-title', 'for-title', 'not-title', 'faq-title'].map(id => HTML.indexOf(`id="${id}"`));
+  const order = ['<h1', 'id="book-title"', 'id="ba-title"', 'Made for Trucking', 'Probably Not the Right Fit', 'id="faq-title"'].map(m => HTML.indexOf(m));
   check(order.every((v, i) => v > 0 && (i === 0 || v > order[i - 1])), 'sections in the required order: hero → calendar → before/after → for → not for → FAQ');
 
   console.log('\n[2] Unlisted, noindex, crawlable');
@@ -100,30 +109,20 @@ async function ctxWith(browser, opts = {}, calendly = 'stub') {
     check(await page.isHidden('#lp-cal-loading'), `@${w}: loading state cleared`);
     check((await page.evaluate(() => document.getElementById('lp-calendly').style.height)) === '812px', `@${w}: frame resized to Calendly's content height (no inner scroll)`);
     const vis = sel => page.evaluate(s => { const r = document.querySelector(s).getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; }, sel);
-    if (w >= 980) check(await vis('.lpt-price'), `@${w}: $500 price visible on first screen`);
-    else check(await vis('.lpt-anchor'), `@${w}: $500 price anchor visible on first screen`);
+    check(await vis('.lpt-lede strong'), `@${w}: "$500/month" visible on the first screen`);
+    check(await vis('.lpt-cal-head'), `@${w}: calendar card starts on the first screen`);
     if (w === 1440) {
-      check(await vis('.lpt-book-card'), '@1440: scheduler card starts on the first screen');
       check(!(await page.locator('nav').count()), 'no navigation menu');
-      check((await page.locator('header a').count()) === 1 && !(await page.locator('header a[href="/"]').count()), 'header: logo is not a link; only "Book a free call"');
+      check((await page.locator('header a').count()) === 0, 'hero header has no links (logo is not an exit)');
       const hrefs = await page.$$eval('a[href]', as => as.map(a => a.getAttribute('href')));
       const exits = hrefs.filter(h => !h.startsWith('#') && !h.startsWith(CAL) && h !== '/privacy' && !h.startsWith('mailto:'));
       check(exits.length === 0, `only exits: privacy policy, email, scheduler fallback ${exits.join(', ')}`);
       const bookCtas = await page.$$eval('[data-lp-cta]', as => as.map(a => a.getAttribute('href')));
-      check(bookCtas.every(h => h === '#book'), `all ${bookCtas.length} CTAs return to the one scheduler`);
+      check(bookCtas.length === 1 && bookCtas[0] === '#book', 'one quiet "Pick a time" link after the FAQ, returning to the scheduler');
       check((await page.$$eval('a[href^="https://calendly.com"]', as => as.length)) === 1, 'Calendly link only as the hidden-until-needed fallback');
       await page.addScriptTag({ content: AXE });
       const v = await page.evaluate(async () => (await axe.run(document, { runOnly: ['wcag2a', 'wcag2aa', 'best-practice'] })).violations.map(x => `${x.id}: ${x.nodes.slice(0, 2).map(n => n.target.join(' ')).join('; ')}`));
       check(v.length === 0, 'axe WCAG A/AA + best-practice clean ' + v.join(' || '));
-    }
-    if (w === 390) {
-      check(!(await page.evaluate(() => document.querySelector('.sticky-cta').classList.contains('is-visible'))), '@390: no sticky bar covering the hero on load');
-      await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; document.getElementById('faq').scrollIntoView(); });
-      await page.waitForTimeout(400);
-      check(await page.evaluate(() => document.querySelector('.sticky-cta').classList.contains('is-visible')), '@390: sticky "Book a free 15-minute call" appears below the scheduler');
-      await page.evaluate(() => document.getElementById('book').scrollIntoView());
-      await page.waitForTimeout(400);
-      check(!(await page.evaluate(() => document.querySelector('.sticky-cta').classList.contains('is-visible'))), '@390: sticky hidden while scheduler is on screen');
     }
     await ctx.close();
   }
@@ -142,7 +141,7 @@ async function ctxWith(browser, opts = {}, calendly = 'stub') {
     check(await page.evaluate(() => JSON.parse(sessionStorage.getItem('sumify_attr')).params.gclid) === 'TRUCKGCLID', 'gclid captured first-party for Ads attribution');
     const cv = layer.filter(e => Array.isArray(e) && e[0] === 'config').map(e => e[1]);
     check(cv.includes('G-TEST123') && cv.includes('AW-111'), 'existing GA4 + Google Ads tags load as on the main site');
-    await page.click('.lpt-offer a[data-lp-cta]');
+    await page.click('a[data-lp-cta]');
     const fr = page.frames().find(f => f.url().includes('stub-inline'));
     await fr.evaluate(() => window.postMessage('select', '*'));
     await page.waitForTimeout(300);
@@ -168,6 +167,7 @@ async function ctxWith(browser, opts = {}, calendly = 'stub') {
     await page.waitForSelector('#lp-cal-failed:not([hidden])', { timeout: 12000 }).then(() => check(true, 'fallback appears only when Calendly fails to load')).catch(() => check(false, 'fallback shown'));
     const href = await page.getAttribute('#lp-cal-failed a', 'href');
     check(href.startsWith(CAL) && /utm_content=lp_owner-operator-trucking/.test(href), 'fallback link is the attributed scheduler URL');
+    check((await page.evaluate(() => document.getElementById('lp-calendly').style.height)) === '320px', 'fallback state is compact (no empty frame)');
     await ctx.close();
   }
 

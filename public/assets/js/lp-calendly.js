@@ -55,6 +55,7 @@
   function showFailed() {
     if (loading) loading.hidden = true;
     if (failed) failed.hidden = false;
+    if (mount) mount.style.height = "320px";   // compact fallback, no empty frame
     S.track("booking_embed_failed", { page_path: location.pathname });
   }
 

@@ -232,15 +232,15 @@ The suite covers:
 **Audience:** established owner-operators and trucking companies with 1–3 trucks, wanting ongoing monthly bookkeeping from $500/month.
 **Files:** `public/lp/owner-operator-trucking/index.html`, `public/assets/css/lp-trucking.css` (page-only) and `public/assets/js/lp-calendly.js` (inline scheduler). Production pages don't load them.
 
-The structure is fixed:
-1. hero (ICP, problem, solution, $500/month anchor)
+The structure is fixed and deliberately minimal:
+1. hero: "You Drive. We Handle the Books.", with "from $500/month"
 2. **inline Calendly**, under the hero, with no click needed
-3. before / after
-4. who it's for
-5. who it's not for
-6. FAQ
+3. before / after (3 + 3)
+4. who it's for (3)
+5. who it's not for (3)
+6. FAQ (4)
 
-After that there's only a small closing reminder that scrolls back to the scheduler, and the legal footer.
+After the FAQ there's one quiet "Pick a time ↑" link and the legal footer. There's no header navigation, no sticky bar and no repeated pricing.
 
 ### Calendly changes to make manually (the website can't add these)
 Event: `alex-atlanticbay/15min`, or a dedicated "Trucking: 15-min discovery call" event. If you use a new event, update its URL in `index.html`: the `data-url` attribute and the fallback link.
