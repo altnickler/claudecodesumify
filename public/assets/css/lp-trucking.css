@@ -1,0 +1,232 @@
+/* ==========================================================================
+   Sumify: owner-operator trucking landing page (/lp/owner-operator-trucking/)
+   One calm composition: centred editorial hero → framed calendar → three
+   typographic sections. Loaded only on this page, after production styles.css
+   (whose colour tokens, font faces, buttons and focus styles it reuses).
+   ========================================================================== */
+
+.lpt {
+  --warm: #f7f8f5;
+  --ink: var(--navy-900);
+  --body: #33495a;
+  --quiet: #5a6f7d;          /* 5.1:1 on warm */
+  --hair: rgba(17, 42, 58, 0.11);
+  background: var(--warm);
+  color: var(--body);
+}
+.lpt-wrap { width: 100%; max-width: calc(900px + 40px); margin: 0 auto; padding: 0 20px; }
+.lpt-wrap--wide { max-width: calc(1040px + 40px); }
+.lpt-wrap--narrow { max-width: calc(680px + 40px); }
+.lpt-wrap--hero { max-width: calc(1100px + 40px); }
+
+/* ---------- 1. Hero ---------- */
+.lpt-hero {
+  position: relative;
+  text-align: center;
+  padding: 1.75rem 0 2.25rem;
+  background:
+    radial-gradient(56rem 26rem at 50% -6rem, rgba(143, 211, 219, 0.42), transparent 70%),
+    radial-gradient(26rem 18rem at 88% 4rem, rgba(43, 212, 179, 0.14), transparent 70%);
+}
+.lpt-logo {                     /* brand signature: 252×72 source, shown at ≤40px tall so it stays crisp */
+  display: block; width: auto; height: clamp(34px, 1.5rem + 1.1vw, 42px);
+  margin: 0 auto clamp(2rem, 1.4rem + 2vw, 3rem);
+}
+.lpt-hero h1 {
+  margin: 0 auto clamp(1.1rem, 0.8rem + 0.9vw, 1.6rem);
+  color: var(--ink);
+  font-size: clamp(2.6rem, 1.45rem + 5.3vw, 6rem);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  font-weight: 500;
+}
+/* The question: audience + pain point. "Doing Your Own Books?" carries the teal.
+   Phones/tablets: "Owner-Operators," / "Tired of Doing" / "Your Own Books?"
+   Desktop:        "Owner-Operators, Tired of" / "Doing Your Own Books?" */
+.lpt-h1-a { display: block; }
+.lpt-h1-b { color: var(--teal-600); }
+@media (min-width: 900px) {
+  .lpt-h1-a { display: inline; }
+  .lpt-h1-b { display: block; }
+}
+.lpt-hero h1, .lpt-lede, .lpt-h2, .lpt-h3 { text-wrap: balance; }
+.lpt li { text-wrap: pretty; }
+.lpt-lede {
+  max-width: 33rem;
+  margin: 0 auto;
+  font-size: clamp(1.075rem, 0.98rem + 0.45vw, 1.3rem);
+  line-height: 1.55;
+  color: var(--body);
+}
+.lpt-lede strong { color: var(--ink); font-weight: 600; white-space: nowrap; }
+.lpt-lede .nw { white-space: nowrap; }
+@media (min-width: 900px) { .lpt-lede { max-width: 51rem; } }   /* 2 balanced lines (copy is ~1560px on one line) */
+@media (min-width: 768px) {
+  .lpt-hero { padding: 2.25rem 0 2.75rem; }
+}
+
+/* ---------- 2. Calendar: the centrepiece ---------- */
+.lpt-book { position: relative; padding: 0 0 clamp(4.5rem, 3rem + 5vw, 7.5rem); }
+.lpt-book::before {             /* the hero's glow continues behind the card; fades to 0 at every edge */
+  content: ""; position: absolute; left: 0; right: 0; top: -14rem; height: 44rem; z-index: 0; pointer-events: none;
+  background: radial-gradient(40rem 20rem at 50% 50%, rgba(43, 212, 179, 0.12), transparent 70%);
+}
+.lpt-cal {
+  position: relative; z-index: 1;
+  border-radius: 28px;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(180deg, rgba(8, 127, 140, 0.38), rgba(17, 42, 58, 0.06) 60%) border-box;
+  box-shadow:
+    0 0 0 8px rgba(255, 255, 255, 0.55),
+    0 2px 4px rgba(17, 42, 58, 0.04),
+    0 40px 90px -40px rgba(17, 42, 58, 0.38);
+  overflow: hidden;
+}
+.lpt-cal-head { padding: 1.35rem 1.25rem 1rem; text-align: center; border-bottom: 1px solid var(--hair); }
+.lpt-cal-head h2 { margin: 0 0 0.35rem; color: var(--ink); font-size: clamp(1.3rem, 1.1rem + 0.9vw, 1.75rem); font-weight: 600; letter-spacing: -0.025em; }
+.lpt-cal-head p {
+  margin: 0;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.925rem; color: var(--quiet);
+}
+.lpt-cal-head p::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--mint-400); box-shadow: 0 0 0 3px rgba(43, 212, 179, 0.22); }
+.lpt-calendly { position: relative; min-width: 300px; height: 900px; transition: height 0.2s ease; }
+.lpt-calendly iframe { display: block; width: 100%; height: 100%; border: 0; }
+/* Initial height = Calendly's documented inline default; replaced by the real content
+   height from calendly.page_height as soon as the scheduler reports it. */
+@media (min-width: 700px) { .lpt-calendly { height: 700px; } .lpt-cal-head { padding: 1.5rem 2rem 1.1rem; } }
+.lpt-cal-state {
+  position: absolute; inset: 0;
+  display: grid; place-content: center; justify-items: center; gap: 1rem;
+  padding: 2rem; text-align: center; color: var(--quiet); background: #fff;
+}
+.lpt-cal-state[hidden] { display: none; }
+.lpt-cal-state p { margin: 0; }
+.lpt-skeleton { display: grid; grid-template-columns: repeat(7, 32px); gap: 8px; }
+.lpt-skeleton i { width: 32px; height: 32px; border-radius: 50%; background: #eaf3f6; animation: lpt-pulse 1.4s ease-in-out infinite; }
+.lpt-skeleton i:nth-child(3n) { animation-delay: 0.2s; }
+.lpt-skeleton i:nth-child(4n) { animation-delay: 0.4s; }
+@keyframes lpt-pulse { 50% { opacity: 0.45; } }
+
+/* ---------- Shared type ---------- */
+.lpt-section { padding: 0 0 clamp(4.5rem, 3rem + 5vw, 7.5rem); }
+.lpt-h2 {
+  margin: 0 0 clamp(2rem, 1.6rem + 1.5vw, 3rem);
+  text-align: center;
+  color: var(--ink);
+  font-size: clamp(1.7rem, 1.3rem + 1.8vw, 2.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 500;
+}
+.lpt-h3 {
+  margin: 0 0 1.25rem;
+  color: var(--ink);
+  font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  font-weight: 500;
+}
+.lpt ul { list-style: none; margin: 0; padding: 0; }
+
+/* ---------- 3. Before / after: a two-column ledger, no boxes ---------- */
+.lpt-ba { display: grid; gap: 2.25rem; max-width: 820px; margin: 0 auto; }
+.lpt-ba-col h3 {
+  margin: 0 0 0.75rem;
+  font-family: var(--mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--quiet);
+}
+.lpt-ba-after h3 { color: var(--teal-ink); }
+.lpt-ba li {
+  display: flex; align-items: center; gap: 0.85rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--hair);
+  font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+  line-height: 1.4;
+}
+.lpt-ba li::before { content: ""; flex: none; width: 22px; height: 22px; border-radius: 50%; background-position: center; background-repeat: no-repeat; }
+.lpt-ba-before li { color: var(--quiet); }
+.lpt-ba-before li::before {
+  border: 1px solid rgba(17, 42, 58, 0.22);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M3 5h4' stroke='%235a6f7d' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: 10px;
+}
+.lpt-ba-after li { color: var(--ink); font-weight: 500; }
+.lpt-ba-after li::before {
+  background-color: var(--teal-600);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-5' fill='none' stroke='%23ffffff' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size: 11px;
+}
+@media (min-width: 760px) {
+  .lpt-ba { grid-template-columns: 1fr 1fr; gap: 0; }
+  .lpt-ba-before { padding-right: 2.5rem; border-right: 1px solid var(--hair); }
+  .lpt-ba-after { padding-left: 2.5rem; }
+}
+
+/* ---------- 4 + 5. Fit: two quiet columns ---------- */
+.lpt-fit-grid { display: grid; gap: 3rem; max-width: 1000px; }
+.lpt-fit-col { padding-top: 1.5rem; border-top: 2px solid var(--ink); }
+.lpt-fit-no { border-top-color: rgba(17, 42, 58, 0.18); }
+.lpt-fit-col li { position: relative; padding: 0 0 0.9rem 2.1rem; font-size: 1.05rem; line-height: 1.5; }
+.lpt-fit-col li::before {
+  content: ""; position: absolute; left: 0; top: 0.12rem;
+  width: 22px; height: 22px; border-radius: 50%; background-position: center; background-repeat: no-repeat;
+}
+.lpt-fit-yes li { color: var(--ink); }
+.lpt-fit-yes li::before {
+  background-color: var(--mint-400);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-5' fill='none' stroke='%23112a3a' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size: 11px;
+}
+.lpt-fit-no li { color: var(--quiet); }
+.lpt-fit-no li::before {
+  border: 1px solid rgba(17, 42, 58, 0.22);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M3 5h4' stroke='%235a6f7d' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: 10px;
+}
+@media (min-width: 820px) { .lpt-fit-grid { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+
+/* ---------- 6. FAQ ---------- */
+.lpt-faq-list { border-bottom: 1px solid var(--hair); }
+.lpt-faq-list details { border-top: 1px solid var(--hair); }
+.lpt-faq-list summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  min-height: 60px; padding: 1rem 0;
+  color: var(--ink); font-size: 1.1rem; font-weight: 500; letter-spacing: -0.01em;
+  border-radius: 6px;
+}
+.lpt-faq-list summary::-webkit-details-marker { display: none; }
+.lpt-faq-list summary::after {
+  content: ""; flex: none; width: 14px; height: 14px;
+  background:
+    linear-gradient(var(--teal-600), var(--teal-600)) center / 14px 1.75px no-repeat,
+    linear-gradient(var(--teal-600), var(--teal-600)) center / 1.75px 14px no-repeat;
+  transition: transform 0.2s ease;
+}
+.lpt-faq-list details[open] summary::after { transform: rotate(45deg); }
+.lpt-faq-list details p { margin: 0; padding: 0 2.5rem 1.25rem 0; color: var(--body); line-height: 1.6; }
+.lpt-back {
+  display: table; margin: 2.5rem auto 0;
+  padding: 0.5rem 0.25rem;
+  color: var(--teal-ink); font-weight: 600; text-decoration: none;
+  border-bottom: 1px solid rgba(8, 127, 140, 0.35);
+}
+.lpt-back:hover { color: var(--ink); border-color: var(--ink); }
+
+/* ---------- Footer ---------- */
+.lpt-footer { border-top: 1px solid var(--hair); padding: 1.75rem 0 2.25rem; text-align: center; font-size: 0.85rem; color: var(--quiet); }
+.lpt-footer p { margin: 0 0 0.35rem; }
+.lpt-footer ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 1.5rem; }
+.lpt-footer a, .lpt-footer button {
+  display: inline-flex; align-items: center; min-height: 44px;
+  background: none; border: 0; padding: 0; font: inherit; cursor: pointer;
+  color: var(--body); text-decoration: underline; text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lpt-skeleton i { animation: none; }
+  .lpt-calendly, .lpt-faq-list summary::after { transition: none; }
+}

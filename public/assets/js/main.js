@@ -129,7 +129,9 @@
       var id = inviteeIdFromUri(payload.invitee && payload.invitee.uri);
       S.recordBooking(id, "calendly_embed").then(function () {
         if (C.redirectAfterEmbedBooking && id) {
-          window.location.href = "/thank-you?invitee_uuid=" + encodeURIComponent(id) + "&via=embed";
+          var ctx = (S.pageContext && S.pageContext()) || {};
+          var extra = ctx.landing_page ? "&lp=" + encodeURIComponent(ctx.landing_page) + (ctx.lp_campaign ? "&lpc=" + encodeURIComponent(ctx.lp_campaign) : "") : "";
+          window.location.href = "/thank-you?invitee_uuid=" + encodeURIComponent(id) + "&via=embed" + extra;
         }
       });
     }
