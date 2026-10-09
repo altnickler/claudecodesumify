@@ -85,13 +85,11 @@ async function ctxWith(browser, opts = {}, calendly = 'stub') {
     check(changed === '', 'production pages, styles, sitemap, robots and redirects unchanged vs main ' + changed);
   } catch (e) { check(false, 'git diff vs main: ' + e.message); }
 
-  console.log('\n[3] Preview routing function');
-  const fn = await import(path.join(ROOT, 'functions', 'index.js'));
-  for (const [u, want] of [['https://claude-sumify-niche-landing.sumify.pages.dev/?gclid=X', 302], ['https://getsumify.com/', 'next'], ['https://www.getsumify.com/', 'next'], ['https://sumify.pages.dev/', 'next']]) {
-    const r = await fn.onRequest({ request: new Request(u), next: async () => 'next' });
-    const got = r === 'next' ? 'next' : r.status;
-    check(got === want && (got !== 302 || r.headers.get('location').endsWith(`/lp/${SLUG}/?gclid=X`)), `${new URL(u).host}/ → ${got === 302 ? 'trucking page (query kept)' : 'homepage untouched'}`);
-  }
+  console.log('\n[3] Production routing');
+  check(!fs.existsSync(path.join(ROOT, 'functions')), 'no Pages Functions: the preview-only root redirect is removed');
+  const redirects = fs.readFileSync(path.join(PUB, '_redirects'), 'utf8').split('\n').filter(l => l.trim() && !l.trim().startsWith('#'));
+  check(!redirects.some(l => /^\/\s/.test(l.trim())), '_redirects never redirects the homepage "/"');
+  check(fs.readFileSync(path.join(PUB, 'index.html'), 'utf8').includes('<title>Monthly Bookkeeping Services for Small Businesses | Sumify</title>'), 'homepage index.html is the production Sumify homepage');
 
   console.log('\n[4] Rendering');
   for (const [w, h] of [[1440, 900], [1280, 800], [768, 1024], [390, 844], [375, 812]]) {

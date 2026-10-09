@@ -19,4 +19,4 @@ Static site for getsumify.com, deployed by Cloudflare Pages from GitHub. Output 
 - Landing pages are unlisted: `noindex, follow` (meta + `_headers` for `/lp/*`), never in `sitemap.xml`, navigation or the footer, and never blocked in `robots.txt` (AdsBot must crawl).
 - Don't claim IFTA, DOT compliance, fuel-tax, dispatch or per-truck analytics services. Don't invent testimonials, results or ratings.
 - Tests: `tools/qa-trucking.js` plus `tools/qa.js`.
-- `functions/index.js` redirects "/" to the trucking page **only** on the `claude-sumify-niche*.sumify.pages.dev` branch preview. Every other host passes through, so production is unaffected. Delete it once the page is approved and before merging, since it's no longer needed then.
+- The page is approved and live at https://getsumify.com/lp/owner-operator-trucking/. There's no root redirect: `/` is always the homepage. Never add a `_redirects` rule or Pages Function for `/`.
