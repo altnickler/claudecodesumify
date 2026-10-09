@@ -42,9 +42,11 @@
       var u = new URL(base);
       var t = utm();
       Object.keys(t).forEach(function (k) { u.searchParams.set(k, t[k]); });
-      // The page already explains the call, so hide Calendly's own event
-      // details column: less dead space, calendar appears higher.
-      u.searchParams.set("hide_event_type_details", "1");
+      // Wide frames: keep Calendly's event-details column so its two-column
+      // desktop layout fills the frame (hiding it leaves a narrow, centred
+      // calendar with empty space either side). Narrow frames: hide it so the
+      // calendar itself starts higher on phones.
+      if (mount && mount.clientWidth < 700) u.searchParams.set("hide_event_type_details", "1");
       u.searchParams.set("hide_landing_page_details", "1");
       u.searchParams.set("hide_gdpr_banner", "0");
       u.searchParams.set("primary_color", "087f8c");

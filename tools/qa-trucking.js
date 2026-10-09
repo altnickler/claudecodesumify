@@ -94,7 +94,7 @@ async function ctxWith(browser, opts = {}, calendly = 'stub') {
   }
 
   console.log('\n[4] Rendering');
-  for (const [w, h] of [[1440, 900], [768, 1024], [390, 844], [375, 812]]) {
+  for (const [w, h] of [[1440, 900], [1280, 800], [768, 1024], [390, 844], [375, 812]]) {
     const ctx = await ctxWith(browser, { viewport: { width: w, height: h } });
     const page = await ctx.newPage();
     const errs = [], bad = [];
@@ -110,6 +110,13 @@ async function ctxWith(browser, opts = {}, calendly = 'stub') {
     check((await page.evaluate(() => document.getElementById('lp-calendly').style.height)) === '812px', `@${w}: frame resized to Calendly's content height (no inner scroll)`);
     const vis = sel => page.evaluate(s => { const r = document.querySelector(s).getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; }, sel);
     check(await vis('.lpt-lede strong'), `@${w}: "$500/month" visible on the first screen`);
+    const iw = await page.evaluate(() => document.getElementById('lp-calendly').clientWidth);
+    const hid = /hide_event_type_details=1/.test(await page.evaluate(() => window.__inline.url));
+    check(hid === (iw < 700), `@${w}: Calendly details ${hid ? 'hidden (narrow frame, calendar first)' : 'shown (wide frame)'}`);
+    const logoH = await page.evaluate(() => document.querySelector('.lpt-logo').getBoundingClientRect().height);
+    check(logoH >= 34 && logoH <= 42, `@${w}: logo ${Math.round(logoH)}px tall (34–42px, never upscaled past the 72px source)`);
+    const lines = await page.evaluate(() => { const e = document.querySelector('.lpt-eyebrow'); return Math.round(e.getBoundingClientRect().height / parseFloat(getComputedStyle(e).lineHeight)); });
+    check(lines <= 2, `@${w}: audience label on ${lines} line(s), no mid-word break`);
     check(await vis('.lpt-cal-head'), `@${w}: calendar card starts on the first screen`);
     if (w === 1440) {
       check(!(await page.locator('nav').count()), 'no navigation menu');
@@ -137,7 +144,7 @@ async function ctxWith(browser, opts = {}, calendly = 'stub') {
     check(v && v.landing_page === SLUG && v.lp_campaign === SLUG, 'lp_view with landing_page + lp_campaign = owner-operator-trucking');
     const inline = await page.evaluate(() => window.__inline);
     check(inline.url.startsWith(CAL) && /utm_campaign=trucking_search/.test(inline.url) && /utm_content=lp_owner-operator-trucking/.test(inline.url) && !/gclid/.test(inline.url), 'ad UTMs passed to Calendly, page label added, gclid kept off Calendly');
-    check(/hide_event_type_details=1/.test(inline.url), 'Calendly event-details column hidden (calendar sits higher)');
+    check(!/hide_event_type_details=1/.test(inline.url), '@1440: Calendly keeps its event-details column (two-column layout fills the frame)');
     check(await page.evaluate(() => JSON.parse(sessionStorage.getItem('sumify_attr')).params.gclid) === 'TRUCKGCLID', 'gclid captured first-party for Ads attribution');
     const cv = layer.filter(e => Array.isArray(e) && e[0] === 'config').map(e => e[1]);
     check(cv.includes('G-TEST123') && cv.includes('AW-111'), 'existing GA4 + Google Ads tags load as on the main site');

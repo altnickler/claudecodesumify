@@ -17,37 +17,37 @@
 .lpt-wrap { width: 100%; max-width: calc(900px + 40px); margin: 0 auto; padding: 0 20px; }
 .lpt-wrap--wide { max-width: calc(1040px + 40px); }
 .lpt-wrap--narrow { max-width: calc(680px + 40px); }
+.lpt-wrap--hero { max-width: calc(1100px + 40px); }
 
 /* ---------- 1. Hero ---------- */
 .lpt-hero {
   position: relative;
   text-align: center;
-  padding: 1.5rem 0 2.25rem;
+  padding: 1.75rem 0 2.25rem;
   background:
     radial-gradient(56rem 26rem at 50% -6rem, rgba(143, 211, 219, 0.42), transparent 70%),
     radial-gradient(26rem 18rem at 88% 4rem, rgba(43, 212, 179, 0.14), transparent 70%);
 }
-.lpt-logo { display: block; height: 26px; width: auto; margin: 0 auto 2.75rem; }
-.lpt-eyebrow {
-  display: inline-block;
-  margin: 0 0 1.25rem;
-  padding: 0.4rem 0.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(8, 127, 140, 0.22);
-  background: rgba(255, 255, 255, 0.65);
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+.lpt-logo {                     /* brand signature: 252×72 source, shown at ≤40px tall so it stays crisp */
+  display: block; width: auto; height: clamp(34px, 1.5rem + 1.1vw, 42px);
+  margin: 0 auto clamp(2rem, 1.4rem + 2vw, 3rem);
+}
+.lpt-eyebrow {                  /* audience label: readable, deliberate, clearly subordinate to the h1 */
+  margin: 0 0 clamp(0.85rem, 0.6rem + 0.8vw, 1.25rem);
+  font-size: clamp(0.92rem, 0.8rem + 0.45vw, 1.15rem);
+  font-weight: 600;
+  letter-spacing: 0.075em;
   text-transform: uppercase;
   color: var(--teal-ink);
+  text-wrap: balance;
 }
+.lpt-eyebrow .nw { white-space: nowrap; }
 .lpt-hero h1 {
   margin: 0 auto 1.25rem;
   color: var(--ink);
-  font-size: clamp(2.75rem, 1.55rem + 5.4vw, 5.5rem);
-  line-height: 0.98;
-  letter-spacing: -0.05em;
+  font-size: clamp(2.85rem, 1.35rem + 6.3vw, 6.6rem);
+  line-height: 0.96;
+  letter-spacing: -0.052em;
   font-weight: 500;
 }
 .lpt-hero h1 span { color: var(--teal-600); display: inline-block; text-wrap: balance; }
@@ -64,8 +64,7 @@
 .lpt-lede .nw { white-space: nowrap; }
 @media (min-width: 900px) { .lpt-lede { max-width: 46rem; text-wrap: wrap; } .lpt-line { display: block; } }
 @media (min-width: 768px) {
-  .lpt-hero { padding: 2rem 0 3rem; }
-  .lpt-logo { margin-bottom: 4rem; }
+  .lpt-hero { padding: 2.25rem 0 2.75rem; }
 }
 
 /* ---------- 2. Calendar: the centrepiece ---------- */
@@ -87,7 +86,7 @@
     0 40px 90px -40px rgba(17, 42, 58, 0.38);
   overflow: hidden;
 }
-.lpt-cal-head { padding: 1.5rem 1.25rem 1.1rem; text-align: center; border-bottom: 1px solid var(--hair); }
+.lpt-cal-head { padding: 1.35rem 1.25rem 1rem; text-align: center; border-bottom: 1px solid var(--hair); }
 .lpt-cal-head h2 { margin: 0 0 0.35rem; color: var(--ink); font-size: clamp(1.3rem, 1.1rem + 0.9vw, 1.75rem); font-weight: 600; letter-spacing: -0.025em; }
 .lpt-cal-head p {
   margin: 0;
@@ -97,7 +96,9 @@
 .lpt-cal-head p::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--mint-400); box-shadow: 0 0 0 3px rgba(43, 212, 179, 0.22); }
 .lpt-calendly { position: relative; min-width: 300px; height: 900px; transition: height 0.2s ease; }
 .lpt-calendly iframe { display: block; width: 100%; height: 100%; border: 0; }
-@media (min-width: 700px) { .lpt-calendly { height: 700px; } .lpt-cal-head { padding: 1.75rem 2rem 1.25rem; } }
+/* Initial height = Calendly's documented inline default; replaced by the real content
+   height from calendly.page_height as soon as the scheduler reports it. */
+@media (min-width: 700px) { .lpt-calendly { height: 700px; } .lpt-cal-head { padding: 1.5rem 2rem 1.1rem; } }
 .lpt-cal-state {
   position: absolute; inset: 0;
   display: grid; place-content: center; justify-items: center; gap: 1rem;
