@@ -45,11 +45,11 @@ async function ctxWith(browser, opts = {}, calendly = 'stub') {
   const browser = await chromium.launch();
 
   console.log('\n[1] Content acceptance criteria');
-  const text = HTML.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ');
+  const text = HTML.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').replace(/ ([,.])/g, '$1');
   const count = re => (HTML.match(re) || []).length;
-  check(/For owner-operators with 1–3 trucks/.test(text), 'eyebrow: "For owner-operators with 1–3 trucks"');
-  check(/You Drive\.\s+We Handle the Books\./.test(text), 'headline: "You Drive. We Handle the Books."');
-  check(/done-for-you bookkeeping from \$500\/month/.test(text), 'hero states "from $500/month"');
+  check(/<h1>.*Owner-Operators,.*Tired of.*Doing Your Own Books\?.*<\/h1>/.test(HTML), 'headline: "Owner-Operators, Tired of Doing Your Own Books?"');
+  check(!/lpt-eyebrow|For owner-operators with/i.test(HTML.slice(HTML.indexOf('<body'))), 'no separate uppercase audience label on the page');
+  check(/Stop spending your evenings sorting fuel receipts and settlements\. Sumify handles the bookkeeping for trucking businesses with 1–3 trucks, starting at \$500\/month\./.test(text), 'supporting copy: pain, 1–3 trucks and $500/month');
   check(/Let's Get Your Books Handled\./.test(text) && /Free 15-minute call · No obligation/.test(text), 'calendar heading + "Free 15-minute call · No obligation"');
   const ba = HTML.slice(HTML.indexOf('id="ba-title"'), HTML.indexOf('lpt-fit'));
   check((ba.match(/<li>/g) || []).length === 6 && /Receipts and settlements piling up/.test(ba) && /Clear financial reports/.test(ba), 'before/after: exactly 3 + 3 trucking points');
@@ -115,8 +115,11 @@ async function ctxWith(browser, opts = {}, calendly = 'stub') {
     check(hid === (iw < 700), `@${w}: Calendly details ${hid ? 'hidden (narrow frame, calendar first)' : 'shown (wide frame)'}`);
     const logoH = await page.evaluate(() => document.querySelector('.lpt-logo').getBoundingClientRect().height);
     check(logoH >= 34 && logoH <= 42, `@${w}: logo ${Math.round(logoH)}px tall (34–42px, never upscaled past the 72px source)`);
-    const lines = await page.evaluate(() => { const e = document.querySelector('.lpt-eyebrow'); return Math.round(e.getBoundingClientRect().height / parseFloat(getComputedStyle(e).lineHeight)); });
-    check(lines <= 2, `@${w}: audience label on ${lines} line(s), no mid-word break`);
+    const hl = await page.evaluate(() => { const h = document.querySelector('.lpt-hero h1'); const ws = []; const tw = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
+      while (tw.nextNode()) { const t = tw.currentNode, re = /\S+/g; let m; while ((m = re.exec(t.data))) { const r = document.createRange(); r.setStart(t, m.index); r.setEnd(t, m.index + m[0].length); ws.push([Math.round(r.getBoundingClientRect().top), m[0]]); } }
+      const L = {}; ws.forEach(([y, x]) => (L[y] = L[y] || []).push(x)); return Object.values(L).map(l => l.join(' ')); });
+    const want = w >= 900 ? ['Owner-Operators, Tired of', 'Doing Your Own Books?'] : ['Owner-Operators,', 'Tired of Doing', 'Your Own Books?'];
+    check(JSON.stringify(hl) === JSON.stringify(want), `@${w}: headline lines ${JSON.stringify(hl)}`);
     check(await vis('.lpt-cal-head'), `@${w}: calendar card starts on the first screen`);
     if (w === 1440) {
       check(!(await page.locator('nav').count()), 'no navigation menu');

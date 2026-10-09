@@ -233,7 +233,7 @@ The suite covers:
 **Files:** `public/lp/owner-operator-trucking/index.html`, `public/assets/css/lp-trucking.css` (page-only) and `public/assets/js/lp-calendly.js` (inline scheduler). Production pages don't load them.
 
 The structure is fixed and deliberately minimal:
-1. hero: "You Drive. We Handle the Books.", with "from $500/month"
+1. hero: "Owner-Operators, Tired of Doing Your Own Books?", with supporting copy giving the 1–3 trucks fit and "starting at $500/month"
 2. **inline Calendly**, under the hero, with no click needed
 3. before / after (3 + 3)
 4. who it's for (3)

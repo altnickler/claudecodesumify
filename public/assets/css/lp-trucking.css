@@ -32,25 +32,23 @@
   display: block; width: auto; height: clamp(34px, 1.5rem + 1.1vw, 42px);
   margin: 0 auto clamp(2rem, 1.4rem + 2vw, 3rem);
 }
-.lpt-eyebrow {                  /* audience label: readable, deliberate, clearly subordinate to the h1 */
-  margin: 0 0 clamp(0.85rem, 0.6rem + 0.8vw, 1.25rem);
-  font-size: clamp(0.92rem, 0.8rem + 0.45vw, 1.15rem);
-  font-weight: 600;
-  letter-spacing: 0.075em;
-  text-transform: uppercase;
-  color: var(--teal-ink);
-  text-wrap: balance;
-}
-.lpt-eyebrow .nw { white-space: nowrap; }
 .lpt-hero h1 {
-  margin: 0 auto 1.25rem;
+  margin: 0 auto clamp(1.1rem, 0.8rem + 0.9vw, 1.6rem);
   color: var(--ink);
-  font-size: clamp(2.85rem, 1.35rem + 6.3vw, 6.6rem);
-  line-height: 0.96;
-  letter-spacing: -0.052em;
+  font-size: clamp(2.6rem, 1.45rem + 5.3vw, 6rem);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
   font-weight: 500;
 }
-.lpt-hero h1 span { color: var(--teal-600); display: inline-block; text-wrap: balance; }
+/* The question: audience + pain point. "Doing Your Own Books?" carries the teal.
+   Phones/tablets: "Owner-Operators," / "Tired of Doing" / "Your Own Books?"
+   Desktop:        "Owner-Operators, Tired of" / "Doing Your Own Books?" */
+.lpt-h1-a { display: block; }
+.lpt-h1-b { color: var(--teal-600); }
+@media (min-width: 900px) {
+  .lpt-h1-a { display: inline; }
+  .lpt-h1-b { display: block; }
+}
 .lpt-hero h1, .lpt-lede, .lpt-h2, .lpt-h3 { text-wrap: balance; }
 .lpt li { text-wrap: pretty; }
 .lpt-lede {
@@ -62,7 +60,7 @@
 }
 .lpt-lede strong { color: var(--ink); font-weight: 600; white-space: nowrap; }
 .lpt-lede .nw { white-space: nowrap; }
-@media (min-width: 900px) { .lpt-lede { max-width: 46rem; text-wrap: wrap; } .lpt-line { display: block; } }
+@media (min-width: 900px) { .lpt-lede { max-width: 51rem; } }   /* 2 balanced lines (copy is ~1560px on one line) */
 @media (min-width: 768px) {
   .lpt-hero { padding: 2.25rem 0 2.75rem; }
 }
