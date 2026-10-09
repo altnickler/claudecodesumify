@@ -11,21 +11,12 @@ Static site for getsumify.com, deployed by Cloudflare Pages from GitHub. Output 
 - Booking CTAs on the main site open Calendly. Conversions fire **only** on a confirmed booking (`calendly.event_scheduled` or a Calendly redirect with `invitee_uuid`), de-duplicated per invitee. A click or a selected time is never a conversion.
 - Don't change the homepage's look when working on other pages. `public/assets/css/styles.css` is shared by production pages.
 - No fabricated testimonials, ratings, client counts, results, credentials, guarantees or industry expertise.
-- Run `tools/qa.js` (and `tools/qa-lp.js` for landing pages) before pushing. See `README.md` §8.
+- Run `tools/qa.js` (and `tools/qa-trucking.js` for the landing page) before pushing. See `README.md` §8.
 
-## Creating a niche landing page
-Requests look like: *"Create a new Sumify landing page targeting [INDUSTRY], businesses generating [REVENUE], with [PAIN POINT]."*
-
-Follow `lp/README.md`. In short:
-1. Create a development branch. Copy `lp/niches/template-preview.json` to `lp/niches/<slug>.json`, with `status: "draft"`, a unique `campaign.id` (e.g. `lp_<slug>_v1`), and `icp.approved: false`.
-2. Put the owner's ICP values in `icp.*`. Any value they didn't give (decision-maker, revenue, Calendly event) is either asked about or written as a clearly proposed value, with `icp.revenue.approved: false`. Never present proposed criteria as confirmed policy.
-3. Write copy specific to that buyer: the hero (who, problem, how), the before/after, the fit and not-fit lists, and 1–3 niche FAQs. Don't just swap the industry name into generic copy.
-4. Use only verified Sumify capabilities (see `lp/README.md`, "Content rules"). If a niche implies something unverified (e.g. job costing, practice-management integrations, industry reports), handle it in an FAQ as "we'll tell you on the call whether it's in scope". Never promise it, never collect sensitive data, and never claim industry experience.
-5. `node tools/lp/build.mjs`, then `tools/qa-lp.js` and `tools/qa.js`, then screenshots at 1440px and 390px. Review them visually.
-6. Commit, push the branch, and report:
-   - the URL `/lp/<slug>/` (and the Cloudflare branch preview);
-   - every proposed or unapproved setting;
-   - the Calendly questions to add manually.
-7. Only after the owner approves: set `icp.approved` and `icp.revenue.approved` to true and `status: "live"`, rebuild, re-test, and merge to `main` when told to.
-
-Never add `/lp/` pages to navigation, the footer or `sitemap.xml`, and never block `/lp/` in `robots.txt`.
+## Google Ads landing pages (`/lp/`)
+- There is ONE landing page: `public/lp/owner-operator-trucking/index.html` (owner-operators with 1–3 trucks). It's hand-written static HTML with page-only styles in `public/assets/css/lp-trucking.css` and the inline scheduler in `public/assets/js/lp-calendly.js`. There's no generator or template system. Don't create other niche pages unless the owner asks for a specific one.
+- Fixed structure: hero → inline Calendly → before/after → who it's for → who it's not for → FAQ → small closing reminder → legal footer. One conversion: the free 15-minute call. No site navigation, no pricing table, no services catalog.
+- Landing pages are unlisted: `noindex, follow` (meta + `_headers` for `/lp/*`), never in `sitemap.xml`, navigation or the footer, and never blocked in `robots.txt` (AdsBot must crawl).
+- Don't claim IFTA, DOT compliance, fuel-tax, dispatch or per-truck analytics services. Don't invent testimonials, results or ratings.
+- Tests: `tools/qa-trucking.js` plus `tools/qa.js`.
+- `functions/index.js` redirects "/" to the trucking page **only** on the `claude-sumify-niche*.sumify.pages.dev` branch preview. Every other host passes through, so production is unaffected. Delete it once the page is approved and before merging, since it's no longer needed then.

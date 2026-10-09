@@ -1,5 +1,5 @@
 /*
- * Sumify niche landing pages (/lp/*): inline Calendly scheduler.
+ * Sumify Google Ads landing pages (/lp/*): inline Calendly scheduler.
  *
  * - Loads Calendly's official widget on page load and mounts the INLINE
  *   scheduler in #lp-calendly (no popup, no click required).
@@ -42,6 +42,10 @@
       var u = new URL(base);
       var t = utm();
       Object.keys(t).forEach(function (k) { u.searchParams.set(k, t[k]); });
+      // The page already explains the call, so hide Calendly's own event
+      // details column: less dead space, calendar appears higher.
+      u.searchParams.set("hide_event_type_details", "1");
+      u.searchParams.set("hide_landing_page_details", "1");
       u.searchParams.set("hide_gdpr_banner", "0");
       u.searchParams.set("primary_color", "087f8c");
       return u.toString();
@@ -98,7 +102,7 @@
       }
       if (e.data.event === "calendly.page_height" && e.data.payload && e.data.payload.height) {
         var h = parseInt(e.data.payload.height, 10);
-        if (h > 400 && h < 2400) mount.style.height = h + "px";
+        if (h > 400 && h < 2400) mount.style.height = h + "px";   // fit content: no inner scroll, no blank space
       }
     });
   }

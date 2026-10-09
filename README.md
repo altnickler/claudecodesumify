@@ -226,10 +226,42 @@ The suite covers:
 
 ---
 
-## 10. Niche landing pages (`/lp/<slug>/`)
+## 10. Google Ads landing page: owner-operator trucking
 
-Unlisted, `noindex` Google Ads landing pages generated from one template and one JSON config per niche:
-`lp/niches/*.json` → `node tools/lp/build.mjs` → `public/lp/<slug>/index.html`.
-They load `public/assets/css/lp.css` on top of the production styles, so production pages are unaffected.
-Full guide, field reference, Calendly setup and tracking: **`lp/README.md`**. Tests: `tools/qa-lp.js`.
-Only `/lp/template-preview/` (placeholder content) exists until a real niche is approved.
+**URL:** `/lp/owner-operator-trucking/`. Unlisted, `noindex, follow`, not in the sitemap or navigation, crawlable by AdsBot.
+**Audience:** established owner-operators and trucking companies with 1–3 trucks, wanting ongoing monthly bookkeeping from $500/month.
+**Files:** `public/lp/owner-operator-trucking/index.html`, `public/assets/css/lp-trucking.css` (page-only) and `public/assets/js/lp-calendly.js` (inline scheduler). Production pages don't load them.
+
+The structure is fixed:
+1. hero (ICP, problem, solution, $500/month anchor)
+2. **inline Calendly**, under the hero, with no click needed
+3. before / after
+4. who it's for
+5. who it's not for
+6. FAQ
+
+After that there's only a small closing reminder that scrolls back to the scheduler, and the legal footer.
+
+### Calendly changes to make manually (the website can't add these)
+Event: `alex-atlanticbay/15min`, or a dedicated "Trucking: 15-min discovery call" event. If you use a new event, update its URL in `index.html`: the `data-url` attribute and the fallback link.
+
+Under **Event type → Booking form → Add new question**, add three questions. Use radio buttons, and make them required.
+1. *How many trucks do you currently operate?* 1 / 2 / 3 / 4+ / Not currently operating
+2. *Are you looking for ongoing monthly bookkeeping?* Yes / No / Not sure
+3. *Are you comfortable with professional bookkeeping starting at $500/month?* Yes / I'd like to learn more / No
+
+Optionally, use Calendly **Routing Forms** (Teams plan) to send "4+", "Not currently operating" or "No" answers to a polite decline page instead of the calendar.
+On a paid plan, set **Confirmation page → Redirect to `https://getsumify.com/thank-you`**, with "Pass event details" turned on.
+
+### Tracking
+- Every event on the page carries `landing_page=owner-operator-trucking` and `lp_campaign=owner-operator-trucking`. So does `/thank-you` after a booking from this page.
+- In GA4, register both as **event-scoped custom dimensions**.
+- Events:
+  - `lp_view` when the page loads;
+  - `lp_cta_click` and `booking_time_selected`, which are interactions only;
+  - `booking_completed` + `generate_lead` + the Google Ads `conversion`, which fire **only** on Calendly's `calendly.event_scheduled`. The message origin is checked, and duplicates are dropped per invitee UUID.
+- Use a dedicated Google Ads campaign whose final URL is `https://getsumify.com/lp/owner-operator-trucking/`. Auto-tagging stays on.
+- Incoming UTMs are passed to Calendly. If the ad has no `utm_content`, the page sets `utm_content=lp_owner-operator-trucking`, so bookings are identifiable inside Calendly too.
+- **Not built yet:** the *qualified appointment* and *became a client* conversions. These need the Calendly webhook → Cloudflare Worker → CRM → Google Ads offline conversion import described in §7.
+
+Tests: `node tools/qa-trucking.js` (acceptance criteria, tracking, privacy, layout, accessibility).
